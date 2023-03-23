@@ -8,6 +8,8 @@ import CustomPagination from '../../components/CustomPagination';
 import useAuth from '../../hooks/useAuth';
 import { fetchInvoices } from '../../services/apis/fetchInvoices';
 import Loading from '../../components/Loading';
+import useRequestPrivate from '../../hooks/useRequestPrivate';
+import { GET_INVOICES_URL } from '../../utils/constants';
 
 function Dashboard(): React.ReactElement {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,6 +21,7 @@ function Dashboard(): React.ReactElement {
   const [totalItems, setTotalItems] = useState(0);
   const [pageActive, setPageActive] = useState(1);
   const [currentPageSize] = useState(10);
+  const privateRequest = useRequestPrivate();
 
   const params = {
     pageNum: pageActive,
@@ -60,27 +63,16 @@ function Dashboard(): React.ReactElement {
     }
 
     setIsLoading(false);
-    // try {
-    //   const fetchInvoicesService = await fetchInvoices(params);
-    //   console.log("fetchInvoicesService", fetchInvoicesService);
 
-    // } catch (error) {
-    //   console.log("error fetch invoices: ", error);
-
-    // }
-    // try {
-    //   const response = await requestPrivate.get(GET_INVOICES_URL, {
-    //     signal: controller.signal,
-    //     params,
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //   });
-    //   console.log('List Invoices: ', response.data);
-    // } catch (err) {
-    //   console.error(err);
-    //   navigate('/auth/login', { replace: true });
-    // }
+    // test interceptor
+    try {
+      const responseInvoice = await privateRequest.get(GET_INVOICES_URL, {params});
+      console.log('responseInvoice: ', responseInvoice.data);
+      
+      
+    } catch (error) {
+      console.log('error getInvoices: ', error);
+    }
   };
 
   return (

@@ -7,7 +7,7 @@ export const fetchInvoices = async (accessToken: string | null, orgToken: string
   const AuthStr = 'Bearer ' + accessToken;
 
   try {
-    const { data, paging, status } = await request.get(GET_INVOICES_URL, {
+    const { data, paging, status } = await request.getPrivate(GET_INVOICES_URL, {
       headers: { Authorization: AuthStr, 'org-token': orgToken },
       params,
     });

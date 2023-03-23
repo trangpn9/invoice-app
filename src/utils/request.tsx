@@ -7,8 +7,9 @@ const request = axios.create({
 });
 
 export const requestPrivate = axios.create({
-  withCredentials: true,
+  // withCredentials: true,
   baseURL: BASE_URL, 
+  headers: {'Content-Type': 'application/json'}
 });
 
 export const post = async (path: string, payload: {}, options: {}) => {

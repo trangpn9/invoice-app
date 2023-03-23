@@ -14,10 +14,6 @@ const useRequestPrivate = () => {
         if (!config.headers['Authorization']) {
           config.headers['Authorization'] = `Bearer ${auth?.accessToken}`;
           config.headers['org-token'] = auth.orgToken;
-          config.headers['Access-Control-Allow-Origin'] = '*';
-          config.headers['Access-Control-Allow-Methods'] = 'POST, PUT, PATCH, GET, DELETE, OPTIONS';
-          config.headers['Access-Control-Allow-Headers'] = '*';
-          config.headers['Content-Type'] = 'application/json';
         }
         return config;
       },
@@ -34,10 +30,6 @@ const useRequestPrivate = () => {
           setAuth(() => ({ ...auth, accessToken: newAuth?.accessToken, orgToken: newAuth?.orgToken }));
           prevRequest.headers['Authorization'] = `Bearer ${newAuth?.accessToken}`;
           prevRequest.headers['org-token'] = newAuth?.orgToken;
-          prevRequest.headers['Access-Control-Allow-Origin'] = '*';
-          prevRequest.headers['Access-Control-Allow-Methods'] = 'POST, PUT, PATCH, GET, DELETE, OPTIONS';
-          prevRequest.headers['Access-Control-Allow-Headers'] = '*';
-          prevRequest.headers['Content-Type'] = 'application/json';
 
           return requestPrivate(prevRequest);
         }
