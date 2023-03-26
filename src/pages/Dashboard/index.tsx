@@ -50,29 +50,18 @@ function Dashboard(): React.ReactElement {
     setIsLoading(true);
 
     try {
-      const fetchInvoicesService: any = await fetchInvoices(auth.accessToken, auth.orgToken, params);
-      if (fetchInvoicesService === 401) {
-        navigate('/auth/login', { replace: true });
-      }
-
-      setInvoices(fetchInvoicesService?.data);
-      const { totalRecords } = fetchInvoicesService?.paging;
+      const responseInvoice = await privateRequest.get(GET_INVOICES_URL, { params });
+      const { data, paging } = responseInvoice?.data;
+      
+      setInvoices(data);
+      const { totalRecords } = paging;
       setTotalItems(totalRecords);
+
     } catch (error) {
       console.log('error getInvoices: ', error);
     }
 
     setIsLoading(false);
-
-    // test interceptor
-    try {
-      const responseInvoice = await privateRequest.get(GET_INVOICES_URL, {params});
-      console.log('responseInvoice: ', responseInvoice.data);
-      
-      
-    } catch (error) {
-      console.log('error getInvoices: ', error);
-    }
   };
 
   return (

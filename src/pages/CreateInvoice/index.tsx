@@ -7,6 +7,8 @@ import { faEarthAsia } from '@fortawesome/free-solid-svg-icons';
 import useAuth from '../../hooks/useAuth';
 import { createInvoice } from '../../services/apis/createInvoice';
 import Loading from '../../components/Loading';
+import useRequestPrivate from '../../hooks/useRequestPrivate';
+import { CREATE_INVOICE_URL } from '../../utils/constants';
 
 function CreateInvoice(): React.ReactElement {
   const navigate = useNavigate();
@@ -14,65 +16,66 @@ function CreateInvoice(): React.ReactElement {
 
   const [invoiceDate, setInvoiceDate] = useState(new Date());
   const { auth } = useAuth();
+  const privateRequest = useRequestPrivate();
 
   // Fake data to create a new invoice
   const fakeData = {
-    customer: {
-      firstName: 'John',
-      lastName: ' Doe',
-      name: 'British Auto Repair',
-      contact: {
-        email: 'johndoe@barepaire.co.uk',
-        mobileNumber: '+44 7700 900662',
+    'customer': {
+      'firstName': 'John',
+      'lastName': ' Doe',
+      'name': 'British Auto Repair',
+      'contact': {
+        'email': 'johndoe@barepaire.co.uk',
+        'mobileNumber': '+44 7700 900662',
       },
-      addresses: [
+      'addresses': [
         {
-          premise: 'Acme House',
-          countryCode: 'UK',
-          addressType: 'INVOICE',
-          postcode: 'BK16',
-          county: 'Berkshire',
-          city: 'Southampton',
+          'premise': 'Acme House',
+          'countryCode': 'UK',
+          'addressType': 'INVOICE',
+          'postcode': 'BK16',
+          'county': 'Berkshire',
+          'city': 'Southampton',
         },
       ],
     },
-    documents: [
+    'documents': [
       {
-        documentId: '35f2169c-c9dc-42d6-a756-764aeeb59adc',
-        documentName: 'Bill',
-        documentUrl: 'http://www.exampleinvoice.com/documents/23456789876',
+        'documentId': '35f2169c-c9dc-42d6-a756-764aeeb59adc',
+        'documentName': 'Bill',
+        'documentUrl': 'http://www.exampleinvoice.com/documents/23456789876',
       },
     ],
-    invoiceReference: '#1234890',
-    currency: 'GBP',
-    invoiceDate: '2020-05-28',
-    dueDate: '2020-12-31',
-    description: 'Invoice for TrangPN',
-    customFields: [],
-    extensions: [
+    'invoiceReference': '#1234890',
+    'currency': 'GBP',
+    'invoiceDate': '2020-05-28',
+    'dueDate': '2020-12-31',
+    'description': 'Invoice for jackie',
+    'customFields': [],
+    'extensions': [
       {
-        addDeduct: 'ADD',
-        value: 10,
-        type: 'PERCENTAGE',
-        name: 'tax',
+        'addDeduct': 'ADD',
+        'value': 10,
+        'type': 'PERCENTAGE',
+        'name': 'tax',
       },
       {
-        addDeduct: 'DEDUCT',
-        type: 'FIXED_VALUE',
-        value: 1000,
-        name: 'discount',
+        'addDeduct': 'DEDUCT',
+        'type': 'FIXED_VALUE',
+        'value': 1000,
+        'name': 'discount',
       },
     ],
-    items: [
+    'items': [
       {
-        itemReference: 'platinumauto-10923',
-        description: 'Vehicle Parts',
-        quantity: 1000,
-        rate: 20,
-        itemName: 'Tires',
-        itemUOM: '',
-        customFields: [],
-        extensions: [],
+        'itemReference': 'platinumauto-10923',
+        'description': 'Vehicle Parts',
+        'quantity': 1000,
+        'rate': 20,
+        'itemName': 'Tires',
+        'itemUOM': '',
+        'customFields': [],
+        'extensions': [],
       },
     ],
   };
@@ -82,21 +85,92 @@ function CreateInvoice(): React.ReactElement {
 
     // Random invoice number
     const rdInvoiceNum = Math.floor(Math.random() * 100 + 1);
-    const newFakeData = { ...fakeData, invoiceNumber: `INVJACKIE${rdInvoiceNum}` };
+    // const newFakeData = { ...fakeData, 'invoiceNumber': `INVJACKIE${rdInvoiceNum}` };
     const payload = {
-      invoices: [newFakeData],
+      ['invoices']: [{
+        ['customer']: {
+          ['firstName']: 'John',
+          ['lastName']: ' Doe',
+          ['name']: 'British Auto Repair',
+          ['contact']: {
+            ['email']: 'johndoe@barepaire.co.uk',
+            ['mobileNumber']: '+44 7700 900662',
+          },
+          ['addresses']: [
+            {
+              ['premise']: 'Acme House',
+              ['countryCode']: 'UK',
+              ['addressType']: 'INVOICE',
+              ['postcode']: 'BK16',
+              ['county']: 'Berkshire',
+              ['city']: 'Southampton',
+            },
+          ],
+        },
+        ['documents']: [
+          {
+            ['documentId']: '35f2169c-c9dc-42d6-a756-764aeeb59adc',
+            ['documentName']: 'Bill',
+            ['documentUrl']: 'http://www.exampleinvoice.com/documents/23456789876',
+          },
+        ],
+        ['invoiceReference']: '#1234890',
+        ['currency']: 'GBP',
+        ['invoiceDate']: '2020-05-28',
+        ['dueDate']: '2020-12-31',
+        ['description']: 'Invoice for jackie',
+        ['customFields']: [],
+        ['extensions']: [
+          {
+            ['addDeduct']: 'ADD',
+            ['value']: 10,
+            ['type']: 'PERCENTAGE',
+            ['name']: 'tax',
+          },
+          {
+            ['addDeduct']: 'DEDUCT',
+            ['type']: 'FIXED_VALUE',
+            ['value']: 1000,
+            ['name']: 'discount',
+          },
+        ],
+        ['items']: [
+          {
+            ['itemReference']: 'platinumauto-10923',
+            ['description']: 'Vehicle Parts',
+            ['quantity']: 1000,
+            ['rate']: 20,
+            ['itemName']: 'Tires',
+            ['itemUOM']: '',
+            ['customFields']: [],
+            ['extensions']: [],
+          },
+        ],
+        ['invoiceNumber']: `INVJACKIE${rdInvoiceNum}`
+      }],
     };
 
     // Call service post data
+    // try {
+    //   const createInvoiceService = await createInvoice(auth.accessToken, auth.orgToken, payload);
+    //   if (createInvoiceService === 401) {
+    //     navigate('/auth/login', { replace: true });
+    //   }
+    //   console.log('createInvoiceService: ', createInvoiceService);
+    //   // if (status == 201) navigate('/dashboard', { replace: true });
+    // } catch (error) {
+    //   console.log('error getInvoices: ', error);
+    // }
+
+    // implement interceptor
     try {
-      const createInvoiceService = await createInvoice(auth.accessToken, auth.orgToken, payload);
-      if (createInvoiceService === 401) {
-        navigate('/auth/login', { replace: true });
-      }
+      const createInvoiceService = await privateRequest.post(CREATE_INVOICE_URL, payload);
       console.log('createInvoiceService: ', createInvoiceService);
-      // if (status == 201) navigate('/dashboard', { replace: true });
+
+
     } catch (error) {
-      console.log('error getInvoices: ', error);
+      console.log("error create invoice: ", error);
+
     }
 
     setIsLoading(false);
